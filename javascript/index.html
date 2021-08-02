@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Guys</title>
+</head>
+<body>
+    <input type="text" id="search">
+    <button id="actionBtn">Click</button>
+    <div id="container" style ="background-color:#cc0;"></div>
+ 
+      
+
+
+
+ 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script type="text/javascript">
+                   
+          const urls = ['people.json', 'people2.json']; 
+
+          //const urls = ['https://data.generator.com', 'https://important.peoples.com']; 
+
+
+          $("#search").val(urls); 
+
+          let finalResult; 
+
+          $("button").click(function(){  
+          Promise.all(
+          urls.map(url =>fetch(url)
+                  .then(e => e.json())
+              )
+          ).then(data => {
+              finalResult = data.flat(); 
+
+                  var divId = document.getElementById("container")
+                  for(var i=0;i<finalResult.length;i++)
+                  for(var keys in finalResult[i]){
+                  //console.log(finalResult[i][keys]); 
+                  divId.innerHTML = divId.innerHTML + "<br/>"+ keys +"-->"+finalResult[i][keys];
+                  
+                    // sort by name
+                    finalResult.sort(function(a, b) {
+                        var nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
+                        var nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+                        if (nameA < nameB) {
+                          return -1;
+                        }
+                        if (nameA > nameB) {
+                          return 1;
+                        }
+
+                        // names must be equal
+                        return 0;
+                      });
+
+               
+                      }
+              });
+
+
+
+
+
+              
+          });
+
+
+
+
+ 
+</script>
+</body>
+</html>
